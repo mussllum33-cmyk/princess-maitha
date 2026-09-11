@@ -3,7 +3,7 @@ const RELEASE='production-20260911-v4',root=new URL('./',document.currentScript.
 const touch=navigator.maxTouchPoints>0||matchMedia('(pointer:coarse)').matches;
 deviceSelect.value=touch?(/iPad/.test(navigator.userAgent)||Math.min(screen.width,screen.height)>=600?'ipad':'iphone'):'desktop';
 try{const v=localStorage.getItem('maitha-device-profile');if(['iphone','ipad','desktop'].includes(v))deviceSelect.value=v;}catch{}
-const route=new URL(location.href);if(/iphone|ipad/.test(route.hash)){route.searchParams.set('device',route.hash.includes('iphone')?'iphone':'ipad');route.hash='';history.replaceState(null,'',route);}const requested=route.searchParams.get('device');if(['iphone','ipad','desktop'].includes(requested))deviceSelect.value=requested;
+const route=new URL(location.href);if(/iphone|ipad/.test(route.hash)){route.searchParams.set('device',route.hash.includes('iphone')?'iphone':'ipad');route.hash='';history.replaceState(null,'',route);}const requested=route.searchParams.get('device');if(location.hostname.endsWith('github.io')){route.pathname=root.pathname;route.hash='';for(const k of [...route.searchParams.keys()])if(!['device','v','qa'].includes(k))route.searchParams.delete(k);history.replaceState(null,'',route);}if(['iphone','ipad','desktop'].includes(requested))deviceSelect.value=requested;
 deviceSelect.onchange=()=>{try{localStorage.setItem('maitha-device-profile',deviceSelect.value);}catch{}};
 let key,manifest,urls=[],modules=new Map(),generation=0,watchdog;
 const log=[];window.maithaLoadLog=log;function note(stage,detail=''){log.push({stage,detail,time:Date.now()});status.textContent=detail||stage;}
